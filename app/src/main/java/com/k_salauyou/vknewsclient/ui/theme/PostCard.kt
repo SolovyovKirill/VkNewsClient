@@ -28,7 +28,7 @@ fun PostCard() {
         ) {
             PostHeader()
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = stringResource(R.string.teplate_text))
+            Text(text = stringResource(R.string.template_text))
             Spacer(modifier = Modifier.height(8.dp))
             Image(
                 modifier = Modifier.fillMaxWidth(),
