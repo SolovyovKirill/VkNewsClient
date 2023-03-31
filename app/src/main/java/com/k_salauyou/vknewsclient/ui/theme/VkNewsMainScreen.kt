@@ -2,27 +2,28 @@ package com.k_salauyou.vknewsclient.ui.theme
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.k_salauyou.vknewsclient.MainViewModel
 import com.k_salauyou.vknewsclient.navigation.AppNavGraph
-import com.k_salauyou.vknewsclient.navigation.Screen
+import com.k_salauyou.vknewsclient.navigation.rememberNavigationState
 import com.k_salauyou.vknewsclient.ui.theme.NavigationItem.*
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
-
-    val navHostController = rememberNavController()
+    val navigationState = rememberNavigationState()
 
     Scaffold(
         bottomBar = {
             BottomNavigation {
-                val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+                val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
                 val currentRout = navBackStackEntry?.destination?.route
                 val items =
                     listOf(
@@ -34,13 +35,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     BottomNavigationItem(
                         selected = currentRout == item.screen.route,
                         onClick = {
-                            navHostController.navigate(item.screen.route) {
-                                popUpTo(Screen.NewFeed.route) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
+                            navigationState.navigateTo(item.screen.route)
                         },
                         icon = {
                             Icon(item.icon, contentDescription = null)
@@ -56,7 +51,7 @@ fun MainScreen(viewModel: MainViewModel) {
         },
     ) { paddingValues ->
         AppNavGraph(
-            navHostController = navHostController,
+            navHostController = navigationState.navHostController,
             homeScreenContent = {
                 HomeScreen(
                     viewModel = viewModel,
