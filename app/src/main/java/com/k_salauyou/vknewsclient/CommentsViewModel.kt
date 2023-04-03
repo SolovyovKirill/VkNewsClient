@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.k_salauyou.vknewsclient.domain.FeedPost
 import com.k_salauyou.vknewsclient.domain.PostComment
-import com.k_salauyou.vknewsclient.ui.theme.CommentsScreenState
+import com.k_salauyou.vknewsclient.ui.states.CommentsScreenState
 
 class CommentsViewModel(
     feedPost: FeedPost

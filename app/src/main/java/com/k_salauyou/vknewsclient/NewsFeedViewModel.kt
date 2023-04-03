@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.k_salauyou.vknewsclient.domain.FeedPost
 import com.k_salauyou.vknewsclient.domain.StatisticItem
-import com.k_salauyou.vknewsclient.ui.theme.NewsFeedScreenState
+import com.k_salauyou.vknewsclient.ui.states.NewsFeedScreenState
 
 class NewsFeedViewModel : ViewModel() {
 

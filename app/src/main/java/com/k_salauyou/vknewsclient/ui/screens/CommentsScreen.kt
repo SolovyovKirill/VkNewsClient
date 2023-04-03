@@ -21,6 +21,7 @@ import com.k_salauyou.vknewsclient.CommentsViewModel
 import com.k_salauyou.vknewsclient.CommentsViewModelFactory
 import com.k_salauyou.vknewsclient.domain.FeedPost
 import com.k_salauyou.vknewsclient.domain.PostComment
+import com.k_salauyou.vknewsclient.ui.states.CommentsScreenState
 
 @Composable
 fun CommentsScreen(
