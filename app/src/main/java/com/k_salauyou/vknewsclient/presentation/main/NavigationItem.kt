@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.navigation
+package com.k_salauyou.vknewsclient.presentation.main
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
@@ -6,6 +6,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.k_salauyou.vknewsclient.R
+import com.k_salauyou.vknewsclient.navigation.Screen
 
 sealed class NavigationItem(
     val screen: Screen,
