@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.k_salauyou.vknewsclient.CommentsViewModel
-import com.k_salauyou.vknewsclient.CommentsViewModelFactory
+import com.k_salauyou.vknewsclient.ui.viewmodels.CommentsViewModel
+import com.k_salauyou.vknewsclient.ui.viewmodels.CommentsViewModelFactory
 import com.k_salauyou.vknewsclient.domain.FeedPost
 import com.k_salauyou.vknewsclient.domain.PostComment
 import com.k_salauyou.vknewsclient.ui.states.CommentsScreenState
