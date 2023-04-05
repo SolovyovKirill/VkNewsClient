@@ -1,21 +1,56 @@
 package com.k_salauyou.vknewsclient
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.k_salauyou.vknewsclient.ui.theme.MainScreen
 import com.k_salauyou.vknewsclient.ui.theme.VkNewsClientTheme
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKAuthenticationResult
+import com.vk.api.sdk.auth.VKScope
 
 class MainActivity : ComponentActivity() {
-
-    private val viewModel by viewModels<NewsFeedViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             VkNewsClientTheme{
-                MainScreen()
+//                val someState = remember {
+//                    mutableStateOf(true)
+//                }
+//                Log.d("MainActivityLog", "Recomposition: ${someState.value}")
+                val launcher = rememberLauncherForActivityResult(
+                    contract = VK.getVKAuthActivityResultContract(),
+                ) {
+                    when (it) {
+                        is VKAuthenticationResult.Success -> {
+                            Log.d("MainActivityLog", "Success auth")
+                        }
+                        is VKAuthenticationResult.Failed -> {
+                            Log.d("MainActivity", "Failed auth")
+                        }
+                    }
+                }
+//                LaunchedEffect(key1 = someState.value) {
+//                    Log.d("MainActivityLog", "LaunchedEffect")
+//                }
+                SideEffect {
+                    Log.d("MainActivityLog", "SideEffect")
+                    launcher.launch(listOf(VKScope.WALL))
+                }
+//                MainScreen()
+//                Button(onClick = { someState.value = !someState.value }) {
+//                    Text(text = "Change state")
+//                }
             }
         }
     }
