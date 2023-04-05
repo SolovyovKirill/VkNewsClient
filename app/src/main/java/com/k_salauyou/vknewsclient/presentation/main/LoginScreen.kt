@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.ui.screens
+package com.k_salauyou.vknewsclient.presentation.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

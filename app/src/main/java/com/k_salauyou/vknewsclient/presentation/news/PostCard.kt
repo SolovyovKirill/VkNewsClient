@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.ui.theme
+package com.k_salauyou.vknewsclient.presentation.news
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

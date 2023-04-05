@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.ui.states
+package com.k_salauyou.vknewsclient.presentation.main
 
 sealed class AuthState {
     object Initial: AuthState()

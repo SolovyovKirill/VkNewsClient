@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.ui.viewmodels
+package com.k_salauyou.vknewsclient.presentation.comments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

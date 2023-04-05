@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.ui.states
+package com.k_salauyou.vknewsclient.presentation.news
 
 import com.k_salauyou.vknewsclient.domain.FeedPost
 

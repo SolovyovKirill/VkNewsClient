@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.ui
+package com.k_salauyou.vknewsclient.samples
 
 import android.os.Handler
 import androidx.compose.foundation.layout.Column
