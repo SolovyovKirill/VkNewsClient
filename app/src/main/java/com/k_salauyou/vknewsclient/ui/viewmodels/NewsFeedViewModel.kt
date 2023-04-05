@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient
+package com.k_salauyou.vknewsclient.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
