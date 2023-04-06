@@ -25,7 +25,7 @@ fun NewsFeedScreen(
     onCommentClickListener: (FeedPost) -> Unit
 ) {
     val viewModel: NewsFeedViewModel = viewModel()
-    val screenState = viewModel.screenState.observeAsState(Initial)
+    val screenState = viewModel.    screenState.observeAsState(Initial)
 
     when (val currentState = screenState.value) {
         is Posts -> {
