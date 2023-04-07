@@ -5,8 +5,7 @@ import com.k_salauyou.vknewsclient.domain.FeedPost
 import com.k_salauyou.vknewsclient.domain.StatisticItem
 import com.k_salauyou.vknewsclient.domain.StatisticType
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 import kotlin.math.absoluteValue
 
 class NewsFeedMapper {
@@ -20,6 +19,7 @@ class NewsFeedMapper {
             val group = groups.find { it.id == post.communityId.absoluteValue } ?: break
             val feedPost = FeedPost(
                 id = post.id,
+                communityId = post.communityId,
                 communityName = group.name,
                 publicationDate = mapTimestamp(post.date * 1000),
                 communityImageUrl = group.imageUrl,
@@ -31,7 +31,7 @@ class NewsFeedMapper {
                     StatisticItem(type = StatisticType.SHARES, post.reposts.count),
                     StatisticItem(type = StatisticType.VIEWS, post.views.count),
                 ),
-                isFavourite = post.isFavourite
+                isLiked = post.likes.userLikes > 0
             )
             result.add(feedPost)
         }
