@@ -13,8 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.k_salauyou.vknewsclient.domain.FeedPost
-import com.k_salauyou.vknewsclient.presentation.news.NewsFeedScreenState.Initial
-import com.k_salauyou.vknewsclient.presentation.news.NewsFeedScreenState.Posts
+import com.k_salauyou.vknewsclient.presentation.news.NewsFeedScreenState.*
 import com.k_salauyou.vknewsclient.ui.theme.DarkBlue
 
 @Composable
@@ -36,6 +35,14 @@ fun NewsFeedScreen(
             )
         }
         Initial -> {}
+        Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = DarkBlue)
+            }
+        }
     }
 
 }
@@ -76,17 +83,11 @@ private fun FeedPosts(
             ) {
                 PostCard(
                     feedPost = feedPost,
-                    onViewsClickListener = { statisticItem ->
-                        viewModel.updateCount(feedPost, statisticItem)
-                    },
                     onCommentClickListener = {
                         onCommentClickListener(feedPost)
                     },
                     onLikeClickListener = { _ ->
                         viewModel.changeLikeStatus(feedPost)
-                    },
-                    onShareClickListener = { statisticItem ->
-                        viewModel.updateCount(feedPost, statisticItem)
                     },
                 )
             }
