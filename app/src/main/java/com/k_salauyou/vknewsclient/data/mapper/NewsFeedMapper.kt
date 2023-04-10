@@ -1,7 +1,9 @@
 package com.k_salauyou.vknewsclient.data.mapper
 
 import com.k_salauyou.vknewsclient.data.model.NewsFeedResponseDto
+import com.k_salauyou.vknewsclient.data.model.comments.CommentsResponseDto
 import com.k_salauyou.vknewsclient.domain.FeedPost
+import com.k_salauyou.vknewsclient.domain.PostComment
 import com.k_salauyou.vknewsclient.domain.StatisticItem
 import com.k_salauyou.vknewsclient.domain.StatisticType
 import java.text.SimpleDateFormat
@@ -21,7 +23,7 @@ class NewsFeedMapper {
                 id = post.id,
                 communityId = post.communityId,
                 communityName = group.name,
-                publicationDate = mapTimestamp(post.date * 1000),
+                publicationDate = mapTimestampToDate(post.date),
                 communityImageUrl = group.imageUrl,
                 contentText = post.text,
                 contentImageUrl = post.attachments?.firstOrNull()?.photo?.photoUrls?.lastOrNull()?.url,
@@ -38,8 +40,29 @@ class NewsFeedMapper {
         return result
     }
 
-    private fun mapTimestamp(timestamp: Long): String {
-        val date = Date(timestamp)
+    fun mapResponseToComment(response: CommentsResponseDto): List<PostComment> {
+        val result = mutableListOf<PostComment>()
+
+        val comments = response.content.comments
+        val profiles = response.content.profiles
+        for (comment in comments) {
+            if (comment.text.isBlank()) continue
+            val author = profiles.firstOrNull { it.id == comment.authorId } ?: continue
+            val postComment = PostComment(
+                id = comment.id,
+                authorName = "${author.firstName} ${author.lastName}",
+                authorAvatarUrl = author.avatarUrl,
+                commentText = comment.text,
+                publicationDate = mapTimestampToDate(comment.date)
+            )
+            result.add(postComment)
+        }
+
+        return result
+    }
+
+    private fun mapTimestampToDate(timestamp: Long): String {
+        val date = Date(timestamp * 1000)
         return SimpleDateFormat("d MMMM yyyy, hh:mm", Locale.getDefault()).format(date)
     }
 }
