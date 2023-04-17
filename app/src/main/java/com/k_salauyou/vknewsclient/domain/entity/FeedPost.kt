@@ -1,4 +1,4 @@
-package com.k_salauyou.vknewsclient.domain
+package com.k_salauyou.vknewsclient.domain.entity
 
 import android.os.Bundle
 import android.os.Parcelable

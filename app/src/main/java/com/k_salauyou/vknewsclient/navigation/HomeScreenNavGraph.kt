@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.k_salauyou.vknewsclient.domain.FeedPost
+import com.k_salauyou.vknewsclient.domain.entity.FeedPost
 import com.k_salauyou.vknewsclient.navigation.Screen.Companion.KEY_FEED_POST
 
 fun NavGraphBuilder.homeScreenNavGraph(

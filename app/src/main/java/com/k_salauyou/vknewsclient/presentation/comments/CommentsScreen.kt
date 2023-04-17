@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -20,8 +19,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.k_salauyou.vknewsclient.R
-import com.k_salauyou.vknewsclient.domain.FeedPost
-import com.k_salauyou.vknewsclient.domain.PostComment
+import com.k_salauyou.vknewsclient.domain.entity.FeedPost
+import com.k_salauyou.vknewsclient.domain.entity.PostComment
 
 @Composable
 fun CommentsScreen(
