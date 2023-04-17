@@ -8,6 +8,7 @@ import com.k_salauyou.vknewsclient.domain.PostComment
 import com.k_salauyou.vknewsclient.domain.StatisticItem
 import com.k_salauyou.vknewsclient.domain.StatisticType
 import com.k_salauyou.vknewsclient.extensions.mergeWith
+import com.k_salauyou.vknewsclient.domain.AuthState
 import com.vk.api.sdk.VKPreferencesKeyValueStorage
 import com.vk.api.sdk.auth.VKAccessToken
 import kotlinx.coroutines.CoroutineScope
@@ -18,10 +19,39 @@ import kotlinx.coroutines.flow.*
 class NewsFeedRepository(application: Application) {
 
     private val storage = VKPreferencesKeyValueStorage(application)
-    private val token = VKAccessToken.restore(storage)
+    private val token
+        get() = VKAccessToken.restore(storage)
+
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
     private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
     private val refreshedListFlow = MutableSharedFlow<List<FeedPost>>()
+
+    private val apiService = ApiFactory.apiService
+    private val mapper = NewsFeedMapper()
+
+    private val _feedPosts = mutableListOf<FeedPost>()
+    private val feedPosts: List<FeedPost>
+        get() = _feedPosts.toList()
+
+    private var nextFrom: String? = null
+
+    private val checkAuthStateEvents = MutableSharedFlow<Unit>(replay = 1)
+
+    val authStateFlow = flow {
+        checkAuthStateEvents.emit(Unit)
+        checkAuthStateEvents.collect {
+            val currentToken = token
+            val loggedIn = currentToken != null && currentToken.isValid
+            val authState = if (loggedIn) AuthState.Authorized else AuthState.NoAuthorized
+            emit(authState)
+        }
+    }.stateIn(
+        scope = coroutineScope,
+        started = SharingStarted.Lazily,
+        initialValue = AuthState.Initial
+    )
+
     private val loadedListFlow = flow {
         nextDataNeededEvents.emit(Unit)
         nextDataNeededEvents.collect {
@@ -47,15 +77,6 @@ class NewsFeedRepository(application: Application) {
         true
     }
 
-    private val apiService = ApiFactory.apiService
-    private val mapper = NewsFeedMapper()
-
-    private val _feedPosts = mutableListOf<FeedPost>()
-    private val feedPosts: List<FeedPost>
-        get() = _feedPosts.toList()
-
-    private var nextFrom: String? = null
-
     fun getComments(feedPost: FeedPost): Flow<List<PostComment>> = flow {
         val comments = apiService.getComments(
             accessToken = getAccessToken(),
@@ -78,6 +99,10 @@ class NewsFeedRepository(application: Application) {
 
     suspend fun loadNextData() {
         nextDataNeededEvents.emit(Unit)
+    }
+
+    suspend fun checkAuthState() {
+        checkAuthStateEvents.emit(Unit)
     }
 
     suspend fun changeLikeStatus(feedPost: FeedPost) {
