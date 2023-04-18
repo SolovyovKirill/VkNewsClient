@@ -1,8 +1,7 @@
 package com.k_salauyou.vknewsclient.data.repository
 
-import android.app.Application
 import com.k_salauyou.vknewsclient.data.mapper.NewsFeedMapper
-import com.k_salauyou.vknewsclient.data.network.ApiFactory
+import com.k_salauyou.vknewsclient.data.network.ApiService
 import com.k_salauyou.vknewsclient.domain.entity.*
 import com.k_salauyou.vknewsclient.domain.repository.NewsFeedRepository
 import com.k_salauyou.vknewsclient.extensions.mergeWith
@@ -12,20 +11,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class NewsFeedRepositoryImpl(application: Application) : NewsFeedRepository {
+class NewsFeedRepositoryImpl @Inject constructor(
+    private val storage: VKPreferencesKeyValueStorage,
+    private val apiService: ApiService,
+    private val mapper: NewsFeedMapper
+) : NewsFeedRepository {
 
-    private val storage = VKPreferencesKeyValueStorage(application)
+
     private val token
         get() = VKAccessToken.restore(storage)
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
-
     private val nextDataNeededEvents = MutableSharedFlow<Unit>(replay = 1)
-    private val refreshedListFlow = MutableSharedFlow<List<FeedPost>>()
 
-    private val apiService = ApiFactory.apiService
-    private val mapper = NewsFeedMapper()
+    private val refreshedListFlow = MutableSharedFlow<List<FeedPost>>()
 
     private val _feedPosts = mutableListOf<FeedPost>()
     private val feedPosts: List<FeedPost>
